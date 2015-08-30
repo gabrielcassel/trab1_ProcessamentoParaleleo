@@ -5,7 +5,6 @@ import java.util.Date;
 public class Filosofo implements Runnable{
 	
 	public static Filosofo all[];
-	public static String[] states = {"Meditando", "Comendo"};
 	public static int defaultStarvation = 0;
 	public static int starvationLimit = 100;
 	public static int starvationIncreaseRate = 10;
@@ -69,6 +68,10 @@ public class Filosofo implements Runnable{
 		leftFork = rightFork = null;
 	}
 	
+	public boolean hasBothForks(){
+		return leftFork != null && rightFork != null;
+	}
+	
 	@Override
 	public void run(){
 		while(true){
@@ -86,16 +89,22 @@ public class Filosofo implements Runnable{
 			switch(state){
 			case 0:
 				starvation += diff * starvationIncreaseRate;
-				if(starvation >= starvationLimit && getLeftFork()&& getRightFork())
-					state = 1;
-				else
-					dropForks();
+
+//				Se estiver com fome, tenta pegar garfos e comer
+				if(starvation >= starvationLimit){
+					getLeftFork();
+					getRightFork();
+					if(hasBothForks())
+						state = 1;
+				}
+					
 			break;
 			case 1:
-				if(leftFork != null && rightFork != null){
+				if(hasBothForks()){
 					starvation -= diff * starvationDecreaseRate;
+					
 					if(starvation <= defaultStarvation){
-						starvation = 0;
+						starvation = defaultStarvation;
 						state = 0;						
 						dropForks();
 					}
@@ -107,7 +116,30 @@ public class Filosofo implements Runnable{
 
 	@Override
 	public String toString(){
-		return "Filosofo " + (index + 1) + ": " + states[state] + ". Fome: " + starvation; 
+		StringBuilder str = new StringBuilder();
+		str.append("Filósofo ");
+		str.append(index + 1);
+		str.append(": ");
+		
+		if(state == 0)
+			str.append(starvation < starvationLimit ? "Meditando" : "Esperando");
+		else
+			str.append("Comendo");
+		
+		str.append(" - Nível de fome: ");
+		str.append(starvation);
+		str.append('%');
+		
+		str.append(" - Garfos: (");
+		if(rightFork != null)
+			str.append(rightFork);
+		if(leftFork != null){
+			if(rightFork != null)
+				str.append(", ");
+			str.append(leftFork);
+		}
+		str.append(')');
+		return str.toString(); 
 	}
 
 }
