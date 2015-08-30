@@ -1,6 +1,5 @@
 package trab1_ProcessamentoParaleleo;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 public class Filosofo implements Runnable{
@@ -15,12 +14,15 @@ public class Filosofo implements Runnable{
 	private int index;
 	private int state;
 	private int starvation;
-	private long lastExecution; 
+	private long lastExecution;
 	
+	private Garfo leftFork;
+	private Garfo rightFork;
+
 	public static void generate(int quantity){
 		all = new Filosofo[quantity];
-		for(int x = 0; x < quantity;)
-			all[x] = new Filosofo(++x);
+		for(int x = 0; x < quantity; x++)
+			all[x] = new Filosofo(x);
 	}
 	
 	public static long currentTimestamp(){
@@ -38,6 +40,35 @@ public class Filosofo implements Runnable{
 	    thread.start();
 	}
 	
+	private Garfo getForkReference(int num){
+		return Garfo.getForkAtIndex(index + num);		
+	}
+	
+	private boolean getLeftFork(){
+		Garfo fork = getForkReference(1);
+		boolean gotFork = fork.get(this);
+		if(gotFork)
+			leftFork = fork;
+		return gotFork;
+	}
+	
+	private boolean getRightFork(){
+		Garfo fork = getForkReference(0);
+		boolean gotFork = fork.get(this);
+		if(gotFork)
+			rightFork = fork;
+		return gotFork;
+	}
+	
+	private void dropForks(){
+		if(leftFork != null)
+			leftFork.drop(this);
+		if(rightFork != null)
+			rightFork.drop(this);
+		
+		leftFork = rightFork = null;
+	}
+	
 	@Override
 	public void run(){
 		while(true){
@@ -48,12 +79,27 @@ public class Filosofo implements Runnable{
 				e.printStackTrace();
 			}
 			
-			long now = currentTimestamp(), diff = now - lastExecution;
+			long now = currentTimestamp();
+			float diff = (float) ((now - lastExecution) / 1000.00);
 			lastExecution = now;
 			
 			switch(state){
 			case 0:
-				starvation += diff / 1000.00 * starvationIncreaseRate;
+				starvation += diff * starvationIncreaseRate;
+				if(starvation >= starvationLimit && getLeftFork()&& getRightFork())
+					state = 1;
+				else
+					dropForks();
+			break;
+			case 1:
+				if(leftFork != null && rightFork != null){
+					starvation -= diff * starvationDecreaseRate;
+					if(starvation <= defaultStarvation){
+						starvation = 0;
+						state = 0;						
+						dropForks();
+					}
+				}
 			break;
 			}
 		}
@@ -61,7 +107,7 @@ public class Filosofo implements Runnable{
 
 	@Override
 	public String toString(){
-		return "Filosofo " + index + ": " + states[state] + ". Fome: " + starvation; 
+		return "Filosofo " + (index + 1) + ": " + states[state] + ". Fome: " + starvation; 
 	}
 
 }

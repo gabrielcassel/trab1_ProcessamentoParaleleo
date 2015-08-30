@@ -3,14 +3,19 @@ package trab1_ProcessamentoParaleleo;
 public class Main {
 	
 	public static void main(String args[]){
+//		if(args[0].equals("problema-dos-filosofos"))
+//			Main.startMeal();		
+
 		Main.startMeal();
 	}
 	
 	public static void startMeal(){
 		int quantity = 5;
 
-//		Garfo.generate(quantity);
+		Garfo.generate(quantity);
 		Filosofo.generate(quantity);
+		
+//		Filosofo[0].getForkReference(1);
 		
 		Runnable r = () -> {
 			while(true){
@@ -28,6 +33,8 @@ public class Main {
 		};
 		Thread t = new Thread(r);
 		t.start();
+		
+		
 	}
 	
 }
