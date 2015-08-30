@@ -9,6 +9,8 @@ public class Filosofo implements Runnable{
 	public static int starvationLimit = 100;
 	public static int starvationIncreaseRate = 10;
 	public static int starvationDecreaseRate = 15;
+	
+	public static boolean solidarity = false;
 
 	private int index;
 	private int state;
@@ -96,6 +98,8 @@ public class Filosofo implements Runnable{
 					getRightFork();
 					if(hasBothForks())
 						state = 1;
+					else if(solidarity)
+						dropForks();
 				}
 					
 			break;
