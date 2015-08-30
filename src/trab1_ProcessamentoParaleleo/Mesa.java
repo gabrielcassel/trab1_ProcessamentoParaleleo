@@ -12,6 +12,8 @@ import javax.swing.SwingConstants;
 public class Mesa extends JFrame implements Runnable{
 	
 	public Mesa(){
+		super();
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new GridLayout(1, Filosofo.all.length));
 		setBounds(300, 300, 800, 120);

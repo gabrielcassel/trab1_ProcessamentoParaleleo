@@ -6,12 +6,18 @@ public class Main {
 		if(args.length == 0){
 			System.out.println("Você precisa passar como argumento um dos programas abaixo:");
 			System.out.println("- problema-dos-filosofos");
+			System.out.println("- barbeiro-dorminhoco");
 			return;
 		}
 		
-		if(args[0].equals("problema-dos-filosofos")){
+		switch(args[0]){
+		case "problema-dos-filosofos":
 			boolean solidarity = args.length >= 2 && args[1].equals("1");
-			Main.startMeal(solidarity);
+			startMeal(solidarity);
+		break;
+		case "barbeiro-dorminhoco":
+			startBarberShop();
+		break;
 		}
 	}
 	
@@ -23,7 +29,35 @@ public class Main {
 		Filosofo.generate(quantity);
 		
 		Thread t = new Thread(new Mesa());
-		t.start();		
+		t.start();
+	}
+	
+	public static void startBarberShop(){
+		BarberShop.maxQueueLength = 5;
+		
+		BarberShop barberShop = new BarberShop();
+		Barber barber = new Barber(barberShop);
+		barberShop.setBarber(barber);
+		
+		Thread barberShopThread = new Thread(barberShop);
+		barberShopThread.start();
+		Thread barberThread = new Thread(barber);
+		barberThread.start();
+		
+		Runnable generator = () -> {
+			while(true){
+				barberShop.addCustomer(new Cliente());
+				
+				try {
+					Thread.sleep((long) (Math.random() * 4000));
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		};
+		Thread generatorThread = new Thread(generator);
+		generatorThread.start();
 	}
 	
 }
