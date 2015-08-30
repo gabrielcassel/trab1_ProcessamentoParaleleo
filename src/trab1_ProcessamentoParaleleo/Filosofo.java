@@ -119,8 +119,25 @@ public class Filosofo implements Runnable{
 	}
 
 	@Override
-	public String toString(){
+	public String toString(){		
+		return toString(" - ");
+	}
+
+	public String toString(String separator){
 		StringBuilder str = new StringBuilder();
+		
+		str.append(getName());
+		str.append(separator);
+		str.append(getStarvation());
+		str.append(separator);
+		str.append(getForks());
+		
+		return str.toString();
+	}
+	
+	public String getName(){
+		StringBuilder str = new StringBuilder();
+		
 		str.append("Filósofo ");
 		str.append(index + 1);
 		str.append(": ");
@@ -130,11 +147,23 @@ public class Filosofo implements Runnable{
 		else
 			str.append("Comendo");
 		
-		str.append(" - Nível de fome: ");
+		return str.toString(); 
+	}
+	
+	public String getStarvation(){
+		StringBuilder str = new StringBuilder();
+		
+		str.append("Nível de fome: ");
 		str.append(starvation);
 		str.append('%');
 		
-		str.append(" - Garfos: (");
+		return str.toString(); 
+	}
+	
+	public String getForks(){
+		StringBuilder str = new StringBuilder();
+		
+		str.append("Garfos: (");
 		if(rightFork != null)
 			str.append(rightFork);
 		if(leftFork != null){
@@ -143,6 +172,7 @@ public class Filosofo implements Runnable{
 			str.append(leftFork);
 		}
 		str.append(')');
+		
 		return str.toString(); 
 	}
 
