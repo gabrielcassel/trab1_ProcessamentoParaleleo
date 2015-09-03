@@ -39,12 +39,16 @@ public class BarberShop extends JFrame implements Runnable{
 	}
 	
 	public Cliente getNextCustomer(){
-		return queue.isEmpty() ? null : queue.remove(0);
+		synchronized(queue){
+			return queue.isEmpty() ? null : queue.remove(0);
+		}
 	}
 	
 	public void addCustomer(Cliente customer){
-		if(queue.size() < maxQueueLength)
-			queue.add(customer);
+		synchronized(queue){
+			if(queue.size() < maxQueueLength)
+				queue.add(customer);
+		}
 	}
 
 	@Override
@@ -91,8 +95,19 @@ public class BarberShop extends JFrame implements Runnable{
 //			l.setSize(sitSize);
 			container.add(l, c);
 			
+			Object customarArr[];
+			synchronized(queue){
+				customarArr = queue.toArray();
+			}
+			
 			for(int x = 0; x < 5; x++){
-				JLabel label = x < queue.size() ? queue.get(x).toJLabel() : new JLabel("Cadeira desocupada", SwingConstants.CENTER);
+				JLabel label;
+				if(x < customarArr.length){
+					Cliente customer1 = (Cliente) customarArr[x];
+					label = customer1.toJLabel();
+				}
+				else
+					label = new JLabel("Cadeira desocupada", SwingConstants.CENTER);
 //				label.setSize(sitSize);
 				label.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, queueColor));
 				c.gridx++;
@@ -103,7 +118,7 @@ public class BarberShop extends JFrame implements Runnable{
 			setVisible(true);
 			
 			try {
-				Thread.sleep(100);
+				Thread.sleep(150);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
