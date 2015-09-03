@@ -11,6 +11,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 
 public class BarberShop extends JFrame implements Runnable{
 	
@@ -71,11 +73,13 @@ public class BarberShop extends JFrame implements Runnable{
 			
 			Color barberColor = new Color(234, 67, 53), queueColor = new Color(66, 133, 244);
 //			Dimension sitSize = new Dimension(150, 50);
+			Border padding = new EmptyBorder(5, 5, 5, 5);
 			
 			JLabel l = new JLabel("Cadeira:");
 			l.setOpaque(true);
 			l.setBackground(barberColor.brighter());
-			l.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, barberColor));
+			Border tmp = BorderFactory.createMatteBorder(1, 1, 0, 1, barberColor);
+			l.setBorder(BorderFactory.createCompoundBorder(tmp, padding));
 			container.add(l, c);
 			
 			c.gridx = 1;
@@ -83,7 +87,8 @@ public class BarberShop extends JFrame implements Runnable{
 			l = new JLabel("Fila:");
 			l.setOpaque(true);
 			l.setBackground(queueColor.brighter());
-			l.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, queueColor));
+			tmp = BorderFactory.createMatteBorder(1, 1, 1, 1, queueColor);
+			l.setBorder(BorderFactory.createCompoundBorder(tmp, padding));
 			container.add(l, c);
 			c.gridwidth = 1;
 
