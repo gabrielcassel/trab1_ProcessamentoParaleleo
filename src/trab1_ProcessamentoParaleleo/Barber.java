@@ -1,7 +1,5 @@
 package trab1_ProcessamentoParaleleo;
 
-import java.awt.Color;
-
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
@@ -18,12 +16,7 @@ public class Barber implements Runnable {
 	public void run() {
 		while(true){
 			customer = barberShop.getNextCustomer();
-			int duration;
-			
-			if(customer != null)
-				duration = 2000;
-			else
-				duration = 300;
+			int duration = customer != null ? 2000 : 300;
 			
 			try {
 				Thread.sleep(duration);
