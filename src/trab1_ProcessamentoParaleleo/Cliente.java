@@ -22,8 +22,6 @@ public class Cliente{
 	
 	public JLabel toJLabel(){
 		JLabel label = new JLabel("<html>" + toString() + "</html>", SwingConstants.CENTER);
-		label.setOpaque(true);
-		label.setBackground(Color.YELLOW);
 		return label;	
 	}
 	

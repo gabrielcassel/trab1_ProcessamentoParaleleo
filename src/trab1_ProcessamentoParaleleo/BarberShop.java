@@ -3,13 +3,19 @@ package trab1_ProcessamentoParaleleo;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 
 public class BarberShop extends JFrame implements Runnable{
 	
@@ -20,7 +26,7 @@ public class BarberShop extends JFrame implements Runnable{
 
 	public static int maxQueueLength;
 	private Barber barber;
-	private List<Cliente> queue;
+	private List<Cliente> queue; // Sync this obj
 	
 	
 	public BarberShop(){
@@ -51,7 +57,7 @@ public class BarberShop extends JFrame implements Runnable{
 		while(true){
 			Container container = getContentPane();
 			container.removeAll();
-			container.setVisible(false);
+//			container.setVisible(false);
 			
 			GridBagConstraints c = new GridBagConstraints();
 			c.fill = GridBagConstraints.BOTH;
@@ -64,15 +70,21 @@ public class BarberShop extends JFrame implements Runnable{
 			c.weightx = 1;
 			c.weighty = 1;
 			
+			Color barberColor = new Color(234, 67, 53), queueColor = new Color(66, 133, 244);
+//			Dimension sitSize = new Dimension(150, 50);
+			
 			JLabel l = new JLabel("Cadeira:");
-			l.setBackground(Color.RED);
 			l.setOpaque(true);
+			l.setBackground(barberColor.brighter());
+			l.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, barberColor));
 			container.add(l, c);
+			
 			c.gridx = 1;
 			c.gridwidth = 5;
 			l = new JLabel("Fila:");
-			l.setBackground(Color.YELLOW);
 			l.setOpaque(true);
+			l.setBackground(queueColor.brighter());
+			l.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, queueColor));
 			container.add(l, c);
 			c.gridwidth = 1;
 
@@ -80,11 +92,14 @@ public class BarberShop extends JFrame implements Runnable{
 			c.gridy = 1;
 			Cliente customer = barber.getCustomer();
 			l = customer != null ? customer.toJLabel() : barber.toJLabel();
-			l.setBackground(Color.RED);
+			l.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, barberColor));
+//			l.setSize(sitSize);
 			container.add(l, c);
 			
-			for(Cliente cl: queue){
-				Component label = cl.toJLabel();
+			for(int x = 0; x < 5; x++){
+				JLabel label = x < queue.size() ? queue.get(x).toJLabel() : new JLabel("Cadeira desocupada", SwingConstants.CENTER);
+//				label.setSize(sitSize);
+				label.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, queueColor));
 				c.gridx++;
 				container.add(label, c);
 			}
