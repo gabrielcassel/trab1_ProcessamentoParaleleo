@@ -3,12 +3,12 @@ package trab1_ProcessamentoParaleleo;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
-public class Barber implements Runnable {
+public class Barbeiro implements Runnable {
 
-	private BarberShop barberShop;
+	private Barbearia barberShop;
 	private Cliente customer;
 	
-	public Barber(BarberShop bs){
+	public Barbeiro(Barbearia bs){
 		barberShop = bs;
 	}
 

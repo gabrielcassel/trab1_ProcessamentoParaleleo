@@ -6,7 +6,7 @@ import javax.swing.SwingConstants;
 public class Cliente{
 	
 	private static int quantity = 0;
-	public static BarberShop barberShop;
+	public static Barbearia barberShop;
 	
 	private int index;
 	

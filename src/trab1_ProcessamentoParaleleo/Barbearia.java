@@ -14,7 +14,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
-public class BarberShop extends JFrame implements Runnable{
+public class Barbearia extends JFrame implements Runnable{
 	
 	/**
 	 * 
@@ -22,10 +22,10 @@ public class BarberShop extends JFrame implements Runnable{
 	private static final long serialVersionUID = 1L;
 
 	public static int maxQueueLength;
-	private Barber barber;
+	private Barbeiro barber;
 	private List<Cliente> queue;
 	
-	public BarberShop(){
+	public Barbearia(){
 		super();	
 		queue = new ArrayList<Cliente>();
 		
@@ -35,7 +35,7 @@ public class BarberShop extends JFrame implements Runnable{
 		setTitle("Barbeiro Dorminhoco");
 	}
 
-	public void setBarber(Barber b){
+	public void setBarber(Barbeiro b){
 		barber = b;
 	}
 	

@@ -33,10 +33,10 @@ public class Main {
 	}
 	
 	public static void startBarberShop(){
-		BarberShop.maxQueueLength = 5;
+		Barbearia.maxQueueLength = 5;
 		
-		BarberShop barberShop = new BarberShop();
-		Barber barber = new Barber(barberShop);
+		Barbearia barberShop = new Barbearia();
+		Barbeiro barber = new Barbeiro(barberShop);
 		barberShop.setBarber(barber);
 		
 		Thread barberShopThread = new Thread(barberShop);
