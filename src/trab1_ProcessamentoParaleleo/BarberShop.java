@@ -23,17 +23,16 @@ public class BarberShop extends JFrame implements Runnable{
 
 	public static int maxQueueLength;
 	private Barber barber;
-	private List<Cliente> queue; // Sync this obj
-	
+	private List<Cliente> queue;
 	
 	public BarberShop(){
-		super();
-		
+		super();	
 		queue = new ArrayList<Cliente>();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new GridBagLayout());
 		setBounds(300, 300, 800, 120);
+		setTitle("Barbeiro Dorminhoco");
 	}
 
 	public void setBarber(Barber b){

@@ -21,6 +21,7 @@ public class Mesa extends JFrame implements Runnable{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new GridLayout(1, Filosofo.all.length));
 		setBounds(300, 300, 800, 120);
+		setTitle("Problema dos Filósofos");
 	}
 
 	@Override
