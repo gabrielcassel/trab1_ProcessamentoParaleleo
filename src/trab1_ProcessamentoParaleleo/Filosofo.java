@@ -1,5 +1,6 @@
 package trab1_ProcessamentoParaleleo;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 
 public class Filosofo implements Runnable{
@@ -7,18 +8,17 @@ public class Filosofo implements Runnable{
 	public static Filosofo all[];
 	public static int defaultStarvation = 0;
 	public static int starvationLimit = 100;
-	public static int starvationIncreaseRate = 10;
-	public static int starvationDecreaseRate = 15;
+	public static int starvationIncreaseRate = 20;
+	public static int starvationDecreaseRate = 30;
 	
 	public static boolean solidarity = false;
 
 	private int index;
 	private int state;
-	private int starvation;
+	private float starvation;
 	private long lastExecution;
 	
-	private Garfo leftFork;
-	private Garfo rightFork;
+	private Garfo leftFork, rightFork;
 
 	public static void generate(int quantity){
 		all = new Filosofo[quantity];
@@ -47,7 +47,7 @@ public class Filosofo implements Runnable{
 	
 	private boolean getLeftFork(){
 		Garfo fork = getForkReference(1);
-		boolean gotFork = fork.get(this);
+		boolean gotFork = fork.catchIt(this);
 		if(gotFork)
 			leftFork = fork;
 		return gotFork;
@@ -55,7 +55,7 @@ public class Filosofo implements Runnable{
 	
 	private boolean getRightFork(){
 		Garfo fork = getForkReference(0);
-		boolean gotFork = fork.get(this);
+		boolean gotFork = fork.catchIt(this);
 		if(gotFork)
 			rightFork = fork;
 		return gotFork;
@@ -63,9 +63,9 @@ public class Filosofo implements Runnable{
 	
 	private void dropForks(){
 		if(leftFork != null)
-			leftFork.drop(this);
+			leftFork.dropIt(this);
 		if(rightFork != null)
-			rightFork.drop(this);
+			rightFork.dropIt(this);
 		
 		leftFork = rightFork = null;
 	}
@@ -154,10 +154,10 @@ public class Filosofo implements Runnable{
 		StringBuilder str = new StringBuilder();
 		
 		str.append("Nível de fome: ");
-		str.append(starvation);
+		str.append(new DecimalFormat("#.##").format(starvation));
 		str.append('%');
 		
-		return str.toString(); 
+		return str.toString();
 	}
 	
 	public String getForks(){

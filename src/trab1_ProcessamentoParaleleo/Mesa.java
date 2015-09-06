@@ -26,21 +26,21 @@ public class Mesa extends JFrame implements Runnable{
 
 	@Override
 	public void run() {
-		while(true){
-			try {
-				Thread.sleep(100);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+		while(true){			
 			Container container = getContentPane();
 			container.removeAll();
 			for(Filosofo filosofo : Filosofo.all){
 				Component label = new JLabel("<html>" + filosofo.toString("<br />") + "</html>", SwingConstants.CENTER);
 				container.add(label);
 			}
-			setVisible(true);				
+			setVisible(true);
+			
+			try {
+				Thread.sleep(100);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	

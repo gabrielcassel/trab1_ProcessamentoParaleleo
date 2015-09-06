@@ -23,23 +23,23 @@ public class Garfo {
 		index = num;
 	}
 	
-	public synchronized boolean get(Filosofo f){
-		if(filosofo == null)
-			filosofo = f;
-		return f == filosofo;
-	}
-	
-	public boolean drop(Filosofo f){
-		if(f == filosofo){
-			filosofo = null;
-			return true;
-		}		
-		return false;
-	}
-	
 	public boolean belongsTo(Filosofo f){
 		return filosofo == f;
-	}	
+	}
+	
+	public synchronized boolean catchIt(Filosofo f){
+		if(filosofo == null)
+			filosofo = f;
+		return belongsTo(f);
+	}
+	
+	public synchronized boolean dropIt(Filosofo f){
+		if(belongsTo(f)){
+			filosofo = null;
+			return true;
+		}
+		return false;
+	}
 
 	@Override
 	public String toString(){
