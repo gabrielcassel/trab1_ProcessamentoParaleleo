@@ -8,7 +8,7 @@ public class Filosofo implements Runnable{
 	public static Filosofo all[];
 	public static int defaultStarvation = 0;
 	public static int starvationLimit = 100;
-	public static int starvationIncreaseRate = 20;
+	public static int starvationIncreaseRate = 10;
 	public static int starvationDecreaseRate = 30;
 	
 	public static boolean solidarity = false;
