@@ -35,7 +35,7 @@ public class Main {
 	public static void startBarberShop(){
 		Barbearia.maxQueueLength = 5;
 		
-		Barbearia barberShop = new Barbearia();
+		final Barbearia barberShop = new Barbearia();
 		Barbeiro barber = new Barbeiro(barberShop);
 		barberShop.setBarber(barber);
 		
@@ -44,15 +44,18 @@ public class Main {
 		Thread barberThread = new Thread(barber);
 		barberThread.start();
 		
-		Runnable generator = () -> {
-			while(true){
-				barberShop.addCustomer(new Cliente());
-				
-				try {
-					Thread.sleep((long) (Math.random() * 4000));
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+		Runnable generator = new Runnable() {
+			@Override
+			public void run() {
+				while(true){
+					barberShop.addCustomer(new Cliente());
+					
+					try {
+						Thread.sleep((long) (Math.random() * 4000));
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		};
